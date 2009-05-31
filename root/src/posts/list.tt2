@@ -1,0 +1,9 @@
+[% USE Dumper %]
+[% Dumper.dump(posts) %]
+
+[% FOR post=posts %]
+    Author: [% post.username %]<br/>
+    Title: [% post.title %]<br/>
+    [% post.content %]<br/>
+    <br/>
+[% END %]
