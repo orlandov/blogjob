@@ -16,6 +16,10 @@ use Catalyst::Runtime 5.80;
 use parent qw/Catalyst/;
 use Catalyst qw/-Debug
                 ConfigLoader
+                Authentication
+                Session
+                Session::Store::FastMmap
+                Session::State::Cookie
                 Static::Simple/;
 our $VERSION = '0.01';
 
@@ -28,7 +32,32 @@ our $VERSION = '0.01';
 # with an external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( name => 'BlogJob' );
+__PACKAGE__->config(
+    name => 'BlogJob',
+    session => { flash_to_stash => 1 }
+);
+
+__PACKAGE__->config->{'Plugin::Authentication'} = {
+    use_session => 1,
+    default => {
+        credential => {
+            class => 'Password',
+            password_field => 'password',
+            password_type => 'clear'
+        },
+        store => {
+            class => 'Minimal',
+            users => {
+                orlando => {
+                    name => 'Orladno Vazquez',
+                    password => 'secret',
+                    roles => [qw/edit delete create comment/]
+                }
+            }
+        }
+    }
+
+};
 
 # Start the application
 __PACKAGE__->setup();

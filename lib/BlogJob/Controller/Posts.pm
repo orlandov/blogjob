@@ -35,6 +35,8 @@ sub root :Chained('base') :PathPart('') Args(0) {
 sub list :Chained('base') PathPart('list') Args(0) {
     my ( $self, $c, @rest) = @_;
 
+    
+
     my $collection = $c->stash->{collection};
     my @data       = $collection->query->all;
     $c->stash->{posts} = \@data;

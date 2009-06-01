@@ -3,11 +3,15 @@
 blog.2wycked.net
 </div>
 <div class="left">
+[% Dumper.dump_html(c.user) %]
 [% content %]
 </div>
 <div class="right">
+[% USE Dumper %]
+Hi, <a href="#">[% c.user.get('name') %]</a>
 <ul>
-    <li><a href="[% c.uri_for('login') %]">Sign in</a></li>
+    <li><a href="[% c.uri_for('/auth/login') %]">Sign in</a></li>
+    <li><a href="[% c.uri_for('/auth/logout') %]">Sign out</a></li>
     <li><a href="[% c.uri_for('create') %]">New post</a></li>
 </ul>
 </div>

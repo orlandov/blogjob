@@ -1,5 +1,5 @@
-[%# USE Dumper %]
-[%# Dumper.dump(posts) %]
+[% USE Dumper %]
+[% Dumper.dump(c.user) %]
 
 [% USE date %]
 

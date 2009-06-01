@@ -1,5 +1,5 @@
 <form method="post" action="[% c.uri_for('') %]">
-    Name: <input type="text" name="username" /><br/>
+    Name: <input type="text" name="username" value="[% c.user.id %]"/><br/>
     Title: <input type="text" name="title" /><br/>
     <textarea name="content"></textarea>
     <br/>

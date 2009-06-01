@@ -2,7 +2,7 @@
 <html>
  <head>
      <title>[% template.title or site.title %]</title>
-     <link rel="stylesheet" href="/static/style.css" />
+     <link rel="stylesheet" href="[% c.uri_for("/static/style.css") %]" />
  </head>
  <body>
 [% content %]
