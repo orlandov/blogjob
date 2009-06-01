@@ -4,18 +4,22 @@ use MongoDB;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {}
+sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {
+    my ($self, $c) = @_;
+
+    my $connection
+        = MongoDB::Connection->new(host => 'localhost', port => 27017);
+    my $database   = $connection->get_database('blogjob');
+    my $collection = $database->get_collection('posts');
+    $c->stash->{collection} = $collection;
+}
 
 sub root :Chained('base') :PathPart('') Args(0) {
     my ($self, $c, @rest) = @_;
 
     # posting a new post
     if ($c->request->method eq 'POST') {
-        my $connection
-            = MongoDB::Connection->new(host => 'localhost', port => 27017);
-        my $database   = $connection->get_database('blogjob');
-        my $collection = $database->get_collection('posts');
-
+        my $collection = $c->stash->{collection};
         $collection->insert( {
             username => $c->request->params->{'username'},
             title => $c->request->params->{'title'},
@@ -25,16 +29,12 @@ sub root :Chained('base') :PathPart('') Args(0) {
     }
 
     $c->response->body('root');
-    
 }
 
 sub list :Chained('base') PathPart('list') Args(0) {
     my ( $self, $c, @rest) = @_;
 
-    my $connection = MongoDB::Connection->new(host => 'localhost', port => 27017);
-    my $database   = $connection->get_database('blogjob');
-    my $collection = $database->get_collection('posts');
-    #my $id         = $collection->insert({ some => 'data' });
+    my $collection = $c->stash->{collection};
     my @data       = $collection->query->all;
     $c->stash->{posts} = \@data;
     $c->stash->{template} = "posts/list.tt2";

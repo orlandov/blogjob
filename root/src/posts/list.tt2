@@ -1,9 +1,13 @@
-[% USE Dumper %]
-[% Dumper.dump(posts) %]
+[%# USE Dumper %]
+[%# Dumper.dump(posts) %]
 
 [% FOR post=posts %]
-    Author: [% post.username %]<br/>
-    Title: [% post.title %]<br/>
-    [% post.content %]<br/>
-    <br/>
+<div class="post">
+    <div class="title">[% post.title %]</div>
+    <div class="below-title">
+        Posted by <a href="#" class="username">[% post.username %]</a>
+        <span class="date">[% post.date %]</span>
+    </div>
+    <div class="content">[% post.content %]</div>
+</div>
 [% END %]
