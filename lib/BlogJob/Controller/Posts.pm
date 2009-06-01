@@ -24,6 +24,7 @@ sub root :Chained('base') :PathPart('') Args(0) {
             username => $c->request->params->{'username'},
             title => $c->request->params->{'title'},
             content => $c->request->params->{'content'},
+            timestamp => time
         } );
         return $c->response->redirect($c->uri_for('list'));
     }

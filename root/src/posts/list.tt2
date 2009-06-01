@@ -1,13 +1,17 @@
 [%# USE Dumper %]
 [%# Dumper.dump(posts) %]
 
+[% USE date %]
+
+<div class="posts">
 [% FOR post=posts %]
 <div class="post">
     <div class="title">[% post.title %]</div>
     <div class="below-title">
-        Posted by <a href="#" class="username">[% post.username %]</a>
-        <span class="date">[% post.date %]</span>
+        Posted by <a href="#" class="username">[% post.username %]</a> at
+        <span class="date">[% date.format(post.timestamp) %]</span>
     </div>
     <div class="content">[% post.content %]</div>
 </div>
 [% END %]
+</div>

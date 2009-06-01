@@ -6,6 +6,9 @@ blog.2wycked.net
 [% content %]
 </div>
 <div class="right">
-oh shits
+<ul>
+    <li><a href="[% c.uri_for('login') %]">Sign in</a></li>
+    <li><a href="[% c.uri_for('create') %]">New post</a></li>
+</ul>
 </div>
 </div>
