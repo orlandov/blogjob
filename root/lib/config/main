@@ -22,6 +22,6 @@
 
    # set defaults for variables, etc.
    DEFAULT 
-     message = 'There is no message';
+     XXXmessage = 'There is no message';
 
 -%]
