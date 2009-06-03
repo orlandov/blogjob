@@ -4,6 +4,7 @@ use MongoDB;
 
 BEGIN { extends 'Catalyst::Controller' }
 
+# /posts 
 sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {
     my ($self, $c) = @_;
 
@@ -14,6 +15,7 @@ sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {
     $c->stash->{collection} = $collection;
 }
 
+# /posts
 sub root :Chained('base') :PathPart('') Args(0) {
     my ($self, $c, @rest) = @_;
 
@@ -21,10 +23,9 @@ sub root :Chained('base') :PathPart('') Args(0) {
     if ($c->request->method eq 'POST') {
         my $collection = $c->stash->{collection};
         $collection->insert( {
-            username => $c->request->params->{'username'},
+            author => $c->request->params->{'username'},
             title => $c->request->params->{'title'},
-            content => $c->request->params->{'content'},
-            timestamp => time
+            markdown => $c->request->params->{'content'},
         } );
         return $c->response->redirect($c->uri_for('list'));
     }
@@ -32,6 +33,7 @@ sub root :Chained('base') :PathPart('') Args(0) {
     $c->response->body('root');
 }
 
+# /posts/list
 sub list :Chained('base') PathPart('list') Args(0) {
     my ( $self, $c, @rest) = @_;
 
@@ -43,9 +45,12 @@ sub list :Chained('base') PathPart('list') Args(0) {
     $c->stash->{template} = "posts/list.tt2";
 }
 
+# /posts/create
 sub create :Chained('base') PathPart('create') Args(0) {
     my ($self, $c) = @_;
 
     $c->stash->{template} = "posts/create.tt2";
 }
+
+no Moose;
 1;
