@@ -1,18 +1,28 @@
-<div id="main">
-<div class="header">
-blog.2wycked.net
-</div>
-<div class="left">
-[% Dumper.dump_html(c.user) %]
-[% content %]
-</div>
-<div class="right">
 [% USE Dumper %]
-Hi, <a href="#">[% c.user.get('name') %]</a>
-<ul>
-    <li><a href="[% c.uri_for('/auth/login') %]">Sign in</a></li>
-    <li><a href="[% c.uri_for('/auth/logout') %]">Sign out</a></li>
-    <li><a href="[% c.uri_for('create') %]">New post</a></li>
-</ul>
-</div>
+<div id="main">
+    <div class="left">
+        <div class="container">
+            [% IF c.user -%]
+                Hi, <a href="#">[% c.user.get('name') %]</a><br />
+            [%- ELSE -%]
+                <a href="[% c.uri_for('/auth/login') %]">Sign in</a></li>
+            [%- END %]
+
+            [% IF c.user -%]
+                <ul class="nav">
+                    <li><a href="[% c.uri_for('/posts') %]">Posts</a></li>
+                    <li><a href="[% c.uri_for('create') %]">New post</a></li>
+                    <li><a href="[% c.uri_for('/auth/logout') %]">Sign out</a></li>
+                </ul>
+            [%- END %]
+        </div>
+    </div>
+    <div class="right">
+        <div class="header">
+            log.2wycked.net
+        </div>
+        <div class="container">
+        [% content %]
+        </div>
+    </div>
 </div>

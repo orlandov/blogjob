@@ -1,47 +1,66 @@
 html, body {
-    background-color: #000;
+    background-color: #FFF;
     padding: 0;
     margin: 0;
-    height: 100%;
     font-family: sans-serif;
     color: #222;
     font-size: 12pt;
+    min-height: 500px;
 }
 
 #main {
     width: 1024px;
-    margin: 0 auto;
+    margin: 32px auto;
     padding: 0 8px;
     background-color: #FFF;
-    min-height: 100%;
 }
 
 div#main .header {
     margin: 0 16px;
     background-color: #FFF;
     font-size: 200%;
-    color: #000;
+    color: #333;
+    text-align: left;
+    height: 64px;
 }
 
-div#main .left{
-    width: 75%;
+
+div.container {
+    margin: 0 8px;
+}
+
+div#main .left {
+    width: 25%;
     float: left;
-    border-right: #000 1px solid;
+    margin-right: -1px;
+    margin-top: 64px;
+    text-align: right;
 }
 
 div#main .right {
-    width: 25%;
+    width: 75%;
     float: left;
-    margin-left: -1px;
+    border-left: #000 1px solid;
+    min-height: 500px;
+}
+
+div.container ul.nav {
+    list-style-type: none;
+    text-align: right;
+}
+
+div.right .container  {
+    padding-left: 8px;
+}
+div.left .container  {
+    padding-right: 8px;
 }
 
 div.posts {
     background-color: #FFF;
-    margin: 8px 8px;
 }
 
 div.post {
-    padding: 10px;
 }
 
 div.post .title {
@@ -51,6 +70,10 @@ div.post .title {
 
 div.post .below-title {
     font-size: 10pt;
+}
+
+div.post .content {
+    margin-top: 8px;
 }
 
 a {

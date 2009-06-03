@@ -11,10 +11,10 @@
 <div class="post">
     <div class="title">[% post.title %]</div>
     <div class="below-title">
-        Posted by <a href="#" class="username">[% post.username %]</a> at
+        Posted by <a href="#" class="username">[% post.author %]</a> at
         <span class="date">[% date.format(post.timestamp) %]</span>
     </div>
-    <div class="content">[% post.html %]</div>
+    <div class="content">[% post.markdown %]</div>
 </div>
 [% END %]
 </div>
