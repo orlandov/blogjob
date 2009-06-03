@@ -9,11 +9,12 @@ use MongoDB::OID;
 
 BEGIN { extends 'Catalyst::Model' }
 
-has 'id' => (
-    isa => 'Str',
+has '_id' => (
+    isa => 'Item', # use Item because this may be undef
     is => 'rw',
     default => '',
-    coerce => 1
+    coerce => 1,
+    required => 0,
 );
 
 subtype 'Mongo::OID' => as class_type('MongoDB::OID');

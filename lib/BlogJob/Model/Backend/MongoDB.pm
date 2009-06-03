@@ -22,8 +22,8 @@ method posts_collection {
 method posts {
     my @data = $self->posts_collection->query->all;
     return map {
-            BlogJob::Model::Backend::MongoDB::Post->new($_)
-        } @data;
+        BlogJob::Model::Backend::MongoDB::Post->new($_)
+    } @data;
 }
 
 method add_post(BlogJob::Model::Backend::MongoDB::Post $post) {
