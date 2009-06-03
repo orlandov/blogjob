@@ -12,9 +12,9 @@
     <div class="title">[% post.title %]</div>
     <div class="below-title">
         Posted by <a href="#" class="username">[% post.author %]</a> at
-        <span class="date">[% date.format(post.timestamp) %]</span>
+        <span class="date">[% date.format(post.created) %]</span>
     </div>
-    <div class="content">[% post.markdown %]</div>
+    <div class="content">[% post.html || post.markdown %]</div>
 </div>
 [% END %]
 </div>

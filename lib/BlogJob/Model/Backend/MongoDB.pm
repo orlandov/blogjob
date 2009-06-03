@@ -15,15 +15,14 @@ has 'connection' => (
 BEGIN { extends 'Catalyst::Model' }
 
 method posts_collection {
-    my $database = $self->connection->get_database('blogjob_test');
+    my $database = $self->connection->get_database('blogjob');
     return $database->get_collection('posts');
 }
 
 method posts {
     my @data = $self->posts_collection->query->all;
-    return
-        map {
-            BlogJob::Model::Backend::MongoDB::Post->new(%$_)
+    return map {
+            BlogJob::Model::Backend::MongoDB::Post->new($_)
         } @data;
 }
 

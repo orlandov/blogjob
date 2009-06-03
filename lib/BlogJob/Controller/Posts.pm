@@ -8,6 +8,7 @@ BEGIN { extends 'Catalyst::Controller' }
 sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {
     my ($self, $c) = @_;
 
+    my $mongo = $c->model('MongoDB');
     my $connection
         = MongoDB::Connection->new(host => 'localhost', port => 27017);
     my $database   = $connection->get_database('blogjob');
@@ -26,6 +27,7 @@ sub root :Chained('base') :PathPart('') Args(0) {
             author => $c->request->params->{'username'},
             title => $c->request->params->{'title'},
             markdown => $c->request->params->{'content'},
+            created => time
         } );
         return $c->response->redirect($c->uri_for('list'));
     }
@@ -37,10 +39,9 @@ sub root :Chained('base') :PathPart('') Args(0) {
 sub list :Chained('base') PathPart('list') Args(0) {
     my ( $self, $c, @rest) = @_;
 
-    
-
     my $collection = $c->stash->{collection};
-    my @data       = $collection->query->all;
+    my $posts_model = $c->model('MongoDB');
+    my @data  = $posts_model->posts;
     $c->stash->{posts} = \@data;
     $c->stash->{template} = "posts/list.tt2";
 }
