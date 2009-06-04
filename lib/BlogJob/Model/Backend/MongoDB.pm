@@ -12,11 +12,22 @@ has 'connection' => (
     }
 );
 
+has 'db' => (
+    isa => 'MongoDB::Database',
+    is => 'rw',
+    lazy => 1,
+    builder => '_connect_to_db'
+);
+
+method _connect_to_db {
+    return $self->connection->get_database('blogjob');
+}
+
 BEGIN { extends 'Catalyst::Model' }
 
 method posts_collection {
-    my $database = $self->connection->get_database('blogjob');
-    return $database->get_collection('posts');
+    my $db  = $self->db;
+    return $db->get_collection('posts');
 }
 
 method posts {
