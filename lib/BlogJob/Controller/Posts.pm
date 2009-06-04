@@ -1,13 +1,12 @@
 package BlogJob::Controller::Posts;
 use Moose;
-use MongoDB;
 
 BEGIN { extends 'Catalyst::Controller' }
 
 # /posts 
 sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {
     my ($self, $c) = @_;
-    $c->stash->{posts_model} = $c->model('MongoDB');
+    $c->stash->{posts_model} = $c->model('Posts');
 }
 
 # /posts

@@ -1,4 +1,4 @@
-package BlogJob::Model::MongoDB;
+package BlogJob::Model::Posts;
 use Moose;
 
 BEGIN { extends 'Catalyst::Model::Adaptor' }
