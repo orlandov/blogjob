@@ -3,37 +3,10 @@ use Moose;
 use MooseX::Method::Signatures;
 use BlogJob::Model::Backend::MongoDB::Post;
 
-BEGIN { extends 'Catalyst::Model' }
-
-has hostname => ( isa => 'Str', is => 'ro' );
-has port     => ( isa => 'Int', is => 'ro' );
-has dbname   => ( isa => 'Str', is => 'ro' );
-
-has 'connection' => (
-    isa => 'MongoDB::Connection',
-    is => 'rw',
-    lazy_build => 1
-);
-
-has 'db' => (
-    isa => 'MongoDB::Database',
-    is => 'rw',
-    lazy_build => 1,
-);
-
-method _build_connection {
-    return MongoDB::Connection->new(
-        host => $self->hostname,
-        port => $self->port,
-    );
-}
-
-method _build_db {
-    return $self->connection->get_database('blogjob');
-}
+BEGIN { extends 'Catalyst::Model::MongoDB' }
 
 method posts_collection {
-    my $db  = $self->db;
+    my $db  = $self->dbh;
     return $db->get_collection('posts');
 }
 
