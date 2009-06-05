@@ -1,6 +1,11 @@
 One of the great things about Catalyst is that you can deploy it in a number
-of different ways. As of this post, there are a few popular ways of deploying
-a Catalyst application:
+of different ways. I'd like to talk about some of those deployment options I
+had when building this site and the unique choice I made. I will mention that
+while not new to web development I have just started learning Catalyst and so
+far, I really like it.
+
+As of this post, there are a few popular ways of deploying a Catalyst
+application:
 
 ### mod_perl
 
@@ -38,10 +43,60 @@ talk to the web application via a socket. The great thing is that writing or
 maintaining an implementation SCGI interface and engine is order of magnitudes
 easier to do than FastCGI. As proof, contrast the protocol specifications for
 FastCGI and SCGI. All things being equal (performance, resource utilization) I
-would much prefer a simpler solution.
+would much prefer a simpler solution. All things being equal it makes sense
+that SCGI may well be more
+[performant](http://www.rkblog.rk.edu.pl/w/p/pylons-benchmark-various-servers/)
+than FastCGI, which makes sense. Like any other benchmark, please take it with
+a grain of salt.
 
 The [SCGI spec](http://python.ca/scgi/protocol.txt)
 
 #### Deploying Catalyst with the Cherokee webserver
 
+I was introduced to SCGI while I was learning how to set deploy a Pylons web
+application. During this same time I was exposed to the super awesome Cherokee
+web server. Cherokee is one of the new breed of super small agile web servers.
+It's written in C, has ton of features and is crazy fast. I really can't
+recomment it enough. The other interesting thing about Cherokee is that it is
+configured through an Web 2.0 GUI. Now I can hear you say, GUI's are ewwy,
+what kind of leet hacksor are you? After fucking around with Apache config
+files for years, getting a site up and running **exactly** how I want it in
+literally 4 minutes, I have to say that I'm okay with it.
+
+I wrote a very simple server,
+[pyscgi_wsgi](http://github.com/orlandov/pyscgi_wsgi/tree), to bridge the gap
+from the PySCGI module (also written by the Cherokee guys)
+to any WSGI app.
+
+So now, while learning to use Catalyst, I again wanted to avoid using FastCGI
+while at the same time using some exotic new software I was interested in. I
+saw that the Catalyst SCGI engine had fallen into disuse and wasn't being
+actively maintained. That weekend, I gave it some love and  now
 [Catalyst-SCGI-Engine](http://github.com/orlandov/Catalyst-Engine-SCGI/tree/master)
+ready for action once more. But enough talk, let's get down to setting up Catalyst with SCGI.
+
+First step, download and install Catalyst-Engine-SCGI:
+
+    $ git clone git://github.com/orlandov/Catalyst-Engine-SCGI.git
+    $ cd Catalyst-Engine-SCGI
+    $ perl Makefile.PL
+    $ make
+    $ make test
+    $ sudo make install
+
+Now, from your web application
+
+    $ script/myapp_create.pl SCGI
+    created "/var/www/myapp/script/blogjob_scgi.pl"
+
+Now, in Cherokee create an Information Source source called MyAppSCGI. In the
+field for the command to run, enter:
+
+    /var/www/myapp/script/blogjob_scgi.pl -p 9000
+
+Now create or edit your virtual hosts. Create a directory handler. For
+example, to host the blog application I wrote (BlogJob), I have a virtual host
+for blog.2wycked.net with a directory handler for /blog.  That handler is
+associated with the data source I defined above. Catalyst will automatically
+detect that your application is "mounted" at /blog and will do the right thing
+when you use things like $c->uri_for.
