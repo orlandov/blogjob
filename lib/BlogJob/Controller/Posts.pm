@@ -13,15 +13,14 @@ sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {
 sub root :Chained('base') :PathPart('') Args(0) {
     my ($self, $c, @rest) = @_;
 
-    # posting a new post
     if ($c->request->method eq 'POST') {
-        my $post = BlogJob::Model::Backend::MongoDB::Post->new({
-            author => $c->request->params->{'username'},
-            title => $c->request->params->{'title'},
-            markdown => $c->request->params->{'content'},
-            created => time
-        });
+        my $post = $c->model('Post');
+        $post->author($c->request->params->{'username'});
+        $post->title($c->request->params->{'title'});
+        $post->markdown($c->request->params->{'content'});
+        $post->created(time);
         $c->stash->{posts_model}->add_post($post);
+
         return $c->response->redirect($c->uri_for('list'));
     }
 

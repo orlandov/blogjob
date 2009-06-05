@@ -37,6 +37,14 @@ __PACKAGE__->config(
     session => { flash_to_stash => 1, storage => '/tmp/session'.time }
 );
 
+__PACKAGE__->config->{'Model::Posts'} = {
+    args => {
+        hostname => 'localhost',
+        port => 27017,
+        dbname => 'blogjob'
+    }
+};
+
 __PACKAGE__->config->{'Plugin::Authentication'} = {
     use_session => 1,
     default => {

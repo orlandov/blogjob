@@ -5,7 +5,12 @@ use Data::Dumper;
 
 BEGIN { use_ok 'BlogJob::Model::Backend::MongoDB' }
 
-my $model = BlogJob::Model::Backend::MongoDB->new;
+my $model = BlogJob::Model::Backend::MongoDB->new({
+    hostname => 'localhost',
+    port => 27017,
+    dbname => 'blogjob_test'
+});
+
 $model->remove_all_posts;
 my @posts;
 
