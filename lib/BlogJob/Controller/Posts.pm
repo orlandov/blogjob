@@ -20,9 +20,12 @@ sub root :Chained('base') :PathPart('') Args(0) {
             return;
         }
         my $post = $c->model('Post');
-        $post->author($c->request->params->{'username'});
+        $post->author($c->user->id);
         $post->title($c->request->params->{'title'});
         $post->markdown($c->request->params->{'content'});
+        $post->html(
+            $c->markdown->markdown($c->request->params->{content})
+        );
         $post->created(time);
         $c->stash->{posts_model}->add_post($post);
 

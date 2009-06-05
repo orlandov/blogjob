@@ -17,6 +17,7 @@ use parent qw/Catalyst/;
 use Catalyst qw/-Debug
                 ConfigLoader
                 Authentication
+                Markdown
                 Session
                 Session::Store::FastMmap
                 Session::State::Cookie
