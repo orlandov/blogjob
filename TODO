@@ -1,6 +1,10 @@
+# Need to do
 admin can create a post without publishing it
 admin deletes post
 admin edits post
+users have roles
+non-admin user attempts to delete, create, edit post and is denied
+
+# Done
 admin uses markdown to create rich text
 admin sees styled create post page
-non-admin user attempts to delete, create, edit post and is denied
