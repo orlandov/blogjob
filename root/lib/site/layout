@@ -28,9 +28,9 @@
         </div>
     </div>
     <div class="right">
-        <div class="header">
-            blog<sub>.2</sub>wycked<sub>.net</sub>
-        </div>
+        <h1 class="header">
+            blog.<sub>2</sub>wycked.<sub>net</sub>
+        </h1>
         <div class="container">
         [% content %]
         </div>

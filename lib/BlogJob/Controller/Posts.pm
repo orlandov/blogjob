@@ -15,7 +15,7 @@ sub root :Chained('base') :PathPart('') Args(0) {
 
     if ($c->request->method eq 'POST') {
         if (! $c->user) {
-            $c->flash->{message} = 'You are not allowed to create posts';
+            $c->flash->{message} = 'You have to be logged in to create posts';
             $c->response->redirect($c->uri_for('list'));
             return;
         }
@@ -46,6 +46,11 @@ sub list :Chained('base') PathPart('list') Args(0) {
 # /posts/create
 sub create :Chained('base') PathPart('create') Args(0) {
     my ($self, $c) = @_;
+    if (! $c->user) {
+        $c->flash->{message} = 'You are not logged in to create posts';
+        $c->response->redirect($c->uri_for('list'));
+        return;
+    }
     $c->stash->{template} = "posts/create.tt2";
 }
 

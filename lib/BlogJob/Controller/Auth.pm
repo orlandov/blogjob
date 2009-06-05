@@ -43,7 +43,7 @@ sub logout : Local {
         $c->flash->{message} = 'You successfully logged out. See you next time.';
     }
 
-    return $c->response->redirect('/posts/list');
+    return $c->response->redirect($c->uri_for('/posts/list'));
 }
 
 1;
