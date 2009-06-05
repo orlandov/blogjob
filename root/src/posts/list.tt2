@@ -2,7 +2,7 @@
 <div class="posts">
 [% FOR post=posts %]
 <div class="post">
-    <div class="title">[% post.title %]</div>
+    <h1 class="title">[% post.title %]</h1>
     <div class="below-title">
         Posted by <a href="#" class="username">[% post.author %]</a> at
         <span class="date">[% date.format(post.created) %]</span>

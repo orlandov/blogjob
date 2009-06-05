@@ -60,12 +60,15 @@ div.posts {
 }
 
 div.post {
+    padding: 0px 8px;
     margin-bottom: 32px;
+    background-color: #FAFAFA;
+    border: #F0F0F0 1px solid;;
 }
 
 div.post .title {
+    font-weight: normal;
     color: #555;
-    font-size: 150%;
 }
 
 div.post .below-title {
@@ -73,7 +76,6 @@ div.post .below-title {
 }
 
 div.post .content {
-    margin-top: 8px;
 }
 
 a {
