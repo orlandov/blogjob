@@ -1,7 +1,7 @@
 html, body {
     background-color: #FFF;
     padding: 0;
-    margin: 0;
+    margin: 16px auto;
     font-family: sans-serif;
     color: #222;
     font-size: 12pt;
@@ -10,7 +10,7 @@ html, body {
 
 #main {
     width: 1024px;
-    margin: 32px auto;
+    margin: 0 auto;
     padding: 0 8px;
     background-color: #FFF;
 }
@@ -30,7 +30,7 @@ div.container {
 }
 
 div#main .left {
-    width: 25%;
+    width: 20%;
     float: left;
     margin-right: -1px;
     margin-top: 64px;
@@ -38,7 +38,7 @@ div#main .left {
 }
 
 div#main .right {
-    width: 75%;
+    width: 80%;
     float: left;
     border-left: #000 1px solid;
     min-height: 500px;
@@ -79,4 +79,17 @@ div.post .content {
 
 a {
     color: #000;
+}
+
+form.create_post textarea.content {
+    width: 600px;
+    height: 400px;
+}
+
+form.create_post input.title {
+    width: 500px;
+}
+
+form.create_post div.controls {
+    padding-bottom: 8px;
 }

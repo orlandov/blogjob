@@ -19,7 +19,7 @@
     </div>
     <div class="right">
         <div class="header">
-            log.2wycked.net
+            blog.2wycked.net
         </div>
         <div class="container">
         [% content %]

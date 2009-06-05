@@ -1,7 +1,8 @@
-<form method="post" action="[% c.uri_for('') %]">
-    Name: <input type="text" name="username" value="[% c.user.id %]"/><br/>
-    Title: <input type="text" name="title" /><br/>
-    <textarea name="content"></textarea>
+<form class="create_post" method="post" action="[% c.uri_for('') %]">
+    <div class="controls">
+        <label for="title">Title</label>: <input class="title" id="title" type="text" name="title" />
+    <input type="Submit" value="Create Post" />
+    </div>
+    <textarea class="content" name="content"></textarea>
     <br/>
-    <input type="submit" />
 </form>

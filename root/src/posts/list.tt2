@@ -4,6 +4,7 @@
 <div class="message">
 [% message %]
 </div>
+<hr/>
 [% END %]
 
 <div class="posts">

@@ -14,6 +14,11 @@ sub root :Chained('base') :PathPart('') Args(0) {
     my ($self, $c, @rest) = @_;
 
     if ($c->request->method eq 'POST') {
+        if (! $c->user) {
+            $c->flash->{message} = 'You are not allowed to create posts';
+            $c->response->redirect($c->uri_for('list'));
+            return;
+        }
         my $post = $c->model('Post');
         $post->author($c->request->params->{'username'});
         $post->title($c->request->params->{'title'});
