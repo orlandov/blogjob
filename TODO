@@ -1,3 +1,6 @@
+BlogJob
+-------
+
 # Need to do
 admin can create a post without publishing it
 admin deletes post
@@ -5,7 +8,16 @@ admin edits post
 users have roles
 non-admin user attempts to delete, create, edit post and is denied
 users can navigate to a specific post /posts/2009/05/18/the-title-of-post
+post tags
 
 # Done
 admin uses markdown to create rich text
 admin sees styled create post page
+
+Content
+-------
+
+Catalyst under SCGI
+Creating an authentication store with MongoDB
+Creating a MongoDB Catalyst model
+Cherokee?
