@@ -1,12 +1,4 @@
 [% USE date %]
-
-[% IF message %]
-<div class="message">
-[% message %]
-</div>
-<hr/>
-[% END %]
-
 <div class="posts">
 [% FOR post=posts %]
 <div class="post">

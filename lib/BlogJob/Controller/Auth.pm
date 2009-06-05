@@ -9,7 +9,7 @@ sub login : Local {
     if ($c->request->method =~ /get/i) {
         if ($c->user) {
             # user is already logged in
-            return $c->response->redirect('/posts/list');
+            return $c->response->redirect($c->uri_for('/posts/list'));
         }
         $c->stash->{template} = 'login/form.tt2';
         return;
@@ -19,16 +19,18 @@ sub login : Local {
          and my $password = $c->request->param("password") ) {
         if ($c->authenticate({ username => $username,
                                password => $password })) {
-             $c->response->redirect('/posts/list');
+             $c->response->redirect($c->uri_for('/posts/list'));
              return;
         }
         else {
-           $c->response->body("invalid creds jack");
-             return;
+           $c->flash->{error} = 'Wrong username or password';
+           $c->response->redirect($c->uri_for('login'));
+           return;
         }
     }
     else {
-        $c->response->body("papers please");
+        $c->flash->{error} = 'Missing credentials';
+        $c->response->redirect($c->uri_for('login'));
         return;
     }
 }

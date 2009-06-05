@@ -1,6 +1,16 @@
 [% USE Dumper %]
 <div id="main">
     <div class="left">
+        [% IF error %]
+        <div class="error">
+        [% error %]
+        </div>
+        [% END %]
+        [% IF message %]
+        <div class="message">
+        [% message %]
+        </div>
+        [% END %]
         <div class="container">
             [% IF c.user -%]
                 Hi, <a href="#">[% c.user.get('name') %]</a><br />
@@ -19,7 +29,7 @@
     </div>
     <div class="right">
         <div class="header">
-            blog.2wycked.net
+            blog<sub>.2</sub>wycked<sub>.net</sub>
         </div>
         <div class="container">
         [% content %]
