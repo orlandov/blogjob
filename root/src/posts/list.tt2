@@ -1,13 +1,19 @@
 [% USE date %]
-<div class="posts">
-[% FOR post=posts %]
-<div class="post">
-    [%# USE Dumper; Dumper.dump(post) %]
-    <h2 class="bottom">[% post.title %]</h2>
-    <div class="content">[% post.html || post.markdown %]</div>
-    <p class="quiet">Posted by <a href="#" class="username">[% post.author %]</a> at <span class="date">[% date.format(post.created) %]</span><br/>
-    [% IF post.tags.size %]Tags: [% post.tags.join(', ') %][% END %]</p>
-    <hr/>
+[% IF posts.size %]
+    <div class="posts">
+    [% FOR post=posts %]
+    <div class="post">
+        [%# USE Dumper; Dumper.dump(post) %]
+        <a href="[% c.uri_for('view/') _ post.canonical_name %]"><h2>[% post.title %]</h2></a>
+        <div class="content">[% post.html || post.markdown %]</div>
+        <p class="quiet">Posted by <a href="#" class="username">[% post.author %]</a> at <span class="date">[% date.format(post.created) %]</span><br/>
+        [% IF post.tags.size %]Tags: [% post.tags.join(', ') %][% END %]</p>
+        <hr/>
+    </div>
+    [% END %]
+    </div>
+[% ELSE %]
+<div class="notice">
+There are no posts to view at this time, check again soon!
 </div>
 [% END %]
-</div>

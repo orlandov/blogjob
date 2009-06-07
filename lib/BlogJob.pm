@@ -14,7 +14,10 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config(
     name => 'BlogJob',
-    session => { flash_to_stash => 1, storage => '/tmp/session'.time }
+    session => {
+        flash_to_stash => 1,
+        storage => '/tmp/session',
+    }
 );
 
 __PACKAGE__->config->{'Model::Posts'} = {

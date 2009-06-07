@@ -18,8 +18,8 @@ sub process {
         author  => 'Orlando Vazquez',
     );
 
+    my @tags;
     foreach my $post (@{$c->stash->{posts}}) {
-        my @tags;
         if ($post->tags) {
             @tags = @{$post->tags};
         }
@@ -27,10 +27,11 @@ sub process {
         $feed->add_entry(
             id      => $c->uri_for('/posts'),
             title   => $post->title,
-            link    => $c->uri_for('/posts'),
+            link    => $c->uri_for('view/') . $post->canonical_name,
             updated => DateTime->from_epoch(epoch=>$post->created)->iso8601,
             content => $post->html,
-            author => $post->author
+            author => $post->author,
+            (map { (category => $_) } @tags)
         );
     }
 

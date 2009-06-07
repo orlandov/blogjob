@@ -10,8 +10,8 @@ method posts_collection {
     return $db->get_collection('posts');
 }
 
-method posts {
-    my @data = $self->posts_collection->query->all;
+method posts(:$query) {
+    my @data = $self->posts_collection->query($query)->all;
     return
         sort  {
             $b->created <=> $a->created

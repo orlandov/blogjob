@@ -26,19 +26,46 @@ sub root :Chained('base') :PathPart('') Args(0) {
         $tags =~ s/\s+$//g;
         $post->tags([ split /,/, $tags ]);
 
+        my $created = time;
+        my $dt = DateTime->from_epoch(epoch => $created);
+
+        my ($title, $canonical_title); 
+        $title = $canonical_title = $c->req->params->{'title'};
+        $post->created($created);
+        $canonical_title =~ s/^\s+//g;
+        $canonical_title =~ s/\s+$//g;
+        $canonical_title =~ s/\s+/-/g;
+        $canonical_title =~ s/[^-\w]+//g;
+        my $canonical_name
+            = join '/', ($dt->year, $dt->month, $canonical_title);
+
+        warn $canonical_title;
+        $post->canonical_name($canonical_name);
         $post->author($c->user->id);
         $post->summary($c->req->params->{'summary'});
-        $post->title($c->req->params->{'title'});
+        $post->title($title);
         $post->markdown($c->req->params->{'content'});
         $post->html(
             $c->markdown->markdown($c->req->params->{content}));
-        $post->created(time);
         $c->stash->{posts_model}->add_post($post);
 
         return $c->res->redirect($c->uri_for('list'));
     }
 
     $c->forward('list');
+}
+
+# /posts/yyyy/mm/title-title
+sub view :Chained('base') PathPart('view') Args {
+    my ($self, $c, @name) = @_;
+
+    my @data = $c->stash->{posts_model}->posts(
+        query => {
+            canonical_name => join( '/', @name)
+        }
+    );
+    $c->stash->{posts} = \@data;
+    $c->stash->{template} = "posts/list.tt2";
 }
 
 # /posts/list
@@ -68,5 +95,17 @@ sub create :Chained('base') PathPart('create') Args(0) {
     $c->stash->{template} = "posts/create.tt2";
 }
 
+# /posts/delete
+sub delete :Chained('base') PathPart('delete') Args(0) {
+    my ($self, $c) = @_;
+    if (! $c->user) {
+        $c->flash->{message} = 'You must be signed in to delete posts';
+        $c->response->redirect($c->uri_for('list'));
+        return;
+    }
+}
+
 no Moose;
+
+__PACKAGE__->meta->make_immutable;
 1;

@@ -23,7 +23,7 @@ coerce 'Str'
     => from 'MongoDB::OID'
     => via { $_->{_id}{value} };
 
-has [ qw( author summary markdown html title ) ]
+has [ qw( author canonical_name summary markdown html title ) ]
                => ( isa => 'Str',      is => 'rw', default => '' );
 has 'created'  => ( isa => 'Int',      is => 'rw', default => 0 );
 has 'tags'     => ( isa => 'ArrayRef', is => 'rw', default => sub { [] });
