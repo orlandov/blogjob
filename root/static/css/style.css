@@ -14,13 +14,16 @@ html, body {
     padding: 0 8px;
     background-color: #FFF;
 }
+.headercontainer {
+    
+}
 
 div#main .header {
     margin: 0 16px;
     background-color: #FFF;
     color: #333;
     text-align: left;
-    height: 64px;
+    height: 100px;
 }
 
 

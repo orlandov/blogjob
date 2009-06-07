@@ -1,10 +1,22 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
  <head>
      <title>[% template.title or site.title %]</title>
-     <link rel="stylesheet" href="[% c.uri_for("/static/style.css") %]" />
+<link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/reset.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/src/grid.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/src/typography.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/print.css" type="text/css" media="print"/>
+<!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+
+
+
+<!--     <link rel="stylesheet" href="[% c.uri_for("/static/style.css") %]" /> -->
  </head>
  <body>
-[% content %]
+    <div class="container">
+    [% content %]
+    </div>
  </body>
 </html>

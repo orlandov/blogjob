@@ -1,5 +1,9 @@
 <form method="post" action="[% c.uri_for('/auth/login') %]">
-    <div><label>Username</label>: <input type="text" name="username"/></div>
-    <div><label>Password</label>: <input type="text" name="password"/></div>
+    <div class="span-5">
+    <div><label>Username</label></div>
+    <div><input type="text" name="username"/></div>
+    <div><label>Password</label></div>
+    <div><input type="text" name="password"/></div>
     <input type="submit" value="Login"/>
+    </div>
 </form>

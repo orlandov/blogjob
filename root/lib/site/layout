@@ -1,21 +1,31 @@
 [% USE Dumper %]
-<div id="main">
-    <div class="left">
+<div class="span-24">
+    <div style="min-height: 100px;" class="prepend-4 span-20 last">
+        <h1>blog.<sub>2</sub>wycked.net</h1>
+    </div>
+</div>
+<div class="span-24">
+    <div class="span-3 colborder">
         [% IF error %]
-        <div class="error">
-        [% error %]
-        </div>
+            <div class="error">
+                [% error %]
+            </div>
         [% END %]
-        [% IF message %]
-        <div class="message">
-        [% message %]
-        </div>
+        [% IF notice %]
+            <div class="notice">
+                [% notice %]
+            </div>
         [% END %]
-        <div class="container">
+        [% IF success %]
+            <div class="success">
+                [% success %]
+            </div>
+        [% END %]
+        <div>
             [% IF c.user -%]
                 Hi, <a href="#">[% c.user.get('name') %]</a><br />
             [%- ELSE -%]
-                <a href="[% c.uri_for('/auth/login') %]">Sign in</a></li>
+                <a href="[% c.uri_for('/auth/login') %]">Sign in</a>
             [%- END %]
 
             [% IF c.user -%]
@@ -25,14 +35,18 @@
                     <li><a href="[% c.uri_for('/auth/logout') %]">Sign out</a></li>
                 </ul>
             [%- END %]
+            <hr/>
+            <div class="loud">
+            Tags
+            </div>
+            <ul>
+            <li>Foo</li>
+            <li>Foo</li>
+            <li>Foo</li>
+            </ul>
         </div>
     </div>
-    <div class="right">
-        <h1 class="header">
-            blog.<sub>2</sub>wycked.<sub>net</sub>
-        </h1>
-        <div class="container">
+    <div class="span-20 last">
         [% content %]
-        </div>
     </div>
 </div>

@@ -1,6 +1,9 @@
 <form class="create_post" method="post" action="[% c.uri_for('') %]">
     <div class="controls">
-        <label for="title">Title</label>: <input class="title" id="title" type="text" name="title" />
+        <div>
+            <label for="title">Title</label>
+        </div>
+        <input class="title" id="title" type="text" name="title" />
     <input type="Submit" value="Create Post" />
     </div>
     <textarea class="content" name="content"></textarea>
