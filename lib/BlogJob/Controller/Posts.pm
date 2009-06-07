@@ -43,6 +43,14 @@ sub list :Chained('base') PathPart('list') Args(0) {
     $c->stash->{template} = "posts/list.tt2";
 }
 
+# /posts/feed
+sub feed :Chained('base') PathPart('feed') Args(0) {
+    my ($self, $c) = @_;
+    my @data = $c->stash->{posts_model}->posts;
+    $c->stash->{posts} = \@data;
+    $c->forward('BlogJob::View::Feed');
+}
+
 # /posts/create
 sub create :Chained('base') PathPart('create') Args(0) {
     my ($self, $c) = @_;
