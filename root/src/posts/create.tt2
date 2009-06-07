@@ -1,11 +1,29 @@
 <form class="create_post" method="post" action="[% c.uri_for('') %]">
-    <div class="controls">
-        <div>
-            <label for="title">Title</label>
-        </div>
-        <input class="title" id="title" type="text" name="title" />
-    <input type="Submit" value="Create Post" />
+    <div class="span-2">
+        <label for="title">Title</label>
     </div>
-    <textarea class="content" name="content"></textarea>
-    <br/>
+    <div class="last">
+        <input class="title" id="title" type="text" name="title" /><br/>
+    </div>
+    <div class="span-2">
+        <label for="tags">Tags</label>
+    </div>
+    <div class="last">
+        <input class="tags" id="tags" type="text" name="tags" />
+    </div>
+    <div class="span-2">
+        <label for="summary">Summary</label>
+    </div>
+    <div class="last">
+        <textarea style="height: auto;" rows="5" class="content" name="summary"></textarea>
+    </div>
+    <div class="span-2">
+        <label for="content">Content</label><br/>
+    </div>
+    <div class="last">
+        <textarea class="content" name="content"></textarea>
+    </div>
+    <div class="span-24 prepend-2 last">
+        <input type="Submit" value="Create Post" />
+    </div>
 </form>

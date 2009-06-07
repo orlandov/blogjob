@@ -13,23 +13,29 @@ sub base :Chained('/') :PathPart('posts') CaptureArgs(0) {
 sub root :Chained('base') :PathPart('') Args(0) {
     my ($self, $c, @rest) = @_;
 
-    if ($c->request->method eq 'POST') {
+    if ($c->req->method eq 'POST') {
         if (! $c->user) {
             $c->flash->{message} = 'You have to be logged in to create posts';
-            $c->response->redirect($c->uri_for('list'));
+            $c->res->redirect($c->uri_for('list'));
             return;
         }
         my $post = $c->model('Post');
+
+        my $tags = $c->req->params->{'tags'};
+        $tags =~ s/^\s+//g;
+        $tags =~ s/\s+$//g;
+        $post->tags([ split /,/, $tags ]);
+
         $post->author($c->user->id);
-        $post->title($c->request->params->{'title'});
-        $post->markdown($c->request->params->{'content'});
+        $post->summary($c->req->params->{'summary'});
+        $post->title($c->req->params->{'title'});
+        $post->markdown($c->req->params->{'content'});
         $post->html(
-            $c->markdown->markdown($c->request->params->{content})
-        );
+            $c->markdown->markdown($c->req->params->{content}));
         $post->created(time);
         $c->stash->{posts_model}->add_post($post);
 
-        return $c->response->redirect($c->uri_for('list'));
+        return $c->res->redirect($c->uri_for('list'));
     }
 
     $c->forward('list');

@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/src/grid.css" type="text/css" media="screen, projection"/>
 <link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/src/typography.css" type="text/css" media="screen, projection"/>
 <link rel="stylesheet" href="[% c.uri_for('/static/') %]css/blueprint/print.css" type="text/css" media="print"/>
+<link rel="alternate" type="application/atom+xml" title="blog.2wycked.net" href="[% c.uri_for('/posts/feed') %]" />
 <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
 
 

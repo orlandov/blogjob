@@ -2,9 +2,12 @@
 <div class="posts">
 [% FOR post=posts %]
 <div class="post">
+    [%# USE Dumper; Dumper.dump(post) %]
     <h2 class="bottom">[% post.title %]</h2>
-    <div class="quiet">Posted by <a href="#" class="username">[% post.author %]</a> at <span class="date">[% date.format(post.created) %]</span></div>
     <div class="content">[% post.html || post.markdown %]</div>
+    <p class="quiet">Posted by <a href="#" class="username">[% post.author %]</a> at <span class="date">[% date.format(post.created) %]</span><br/>
+    [% IF post.tags.size %]Tags: [% post.tags.join(', ') %][% END %]</p>
+    <hr/>
 </div>
 [% END %]
 </div>

@@ -9,6 +9,7 @@ sub process {
     my ($self, $c) = @_;
 
     my $feed = XML::Atom::SimpleFeed->new(
+        id => 'http://blog.2wycked.net/posts/feed',
         title   => 'blog.2wycked.net',
         link    => 'http://blog.2wycked.net/',
         link    => { rel => 'self', href => 'http://2wycked.net/posts/feed', },
@@ -24,6 +25,7 @@ sub process {
         }
 
         $feed->add_entry(
+            id      => $c->uri_for('/posts'),
             title   => $post->title,
             link    => $c->uri_for('/posts'),
             updated => DateTime->from_epoch(epoch=>$post->created)->iso8601,
