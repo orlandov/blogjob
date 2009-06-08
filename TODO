@@ -3,18 +3,18 @@ BlogJob
 
 # ideas
 admin deletes post
-atom feed
 admin can create a post without publishing it
 admin edits post
 users have roles
 post tags
 post summaries
-users can navigate to a specific post /posts/2009/05/18/the-title-of-post
 
 # Done
 admin uses markdown to create rich text
 admin sees styled create post page
 non-admin user attempts to delete, create, edit post and is denied
+users can navigate to a specific post /posts/view/2009/05/18/the-title-of-post
+atom feed
 
 Content
 -------
