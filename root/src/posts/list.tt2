@@ -4,6 +4,10 @@
     [% FOR post=posts %]
     <div class="post">
         [%# USE Dumper; Dumper.dump(post) %]
+        [% IF c.user %]
+        <a href="[% c.uri_for('edit/') _ post.canonical_name %]">Edit</a>
+        <a href="[% c.uri_for('delete/') _ post.canonical_name %]">Delete</a>
+        [% END %]
         <a href="[% c.uri_for('view/') _ post.canonical_name %]"><h2>[% post.title %]</h2></a>
         <div class="content">[% post.html || post.markdown %]</div>
         <p class="quiet">Posted by <a href="#" class="username">[% post.author %]</a> at <span class="date">[% date.format(post.created) %]</span><br/>

@@ -13,16 +13,24 @@ method posts_collection {
 method posts(:$query) {
     my @data = $self->posts_collection->query($query)->all;
     return
-        sort  {
-            $b->created <=> $a->created
-        }
-        map {
+        sort { $b->created <=> $a->created }
+        map  {
             BlogJob::Model::Backend::MongoDB::Post->new($_)
         } @data;
 }
 
-method add_post(BlogJob::Model::Backend::MongoDB::Post $post) {
+method remove($query) {
+    $self->posts_collection->remove($query);
+}
+
+method add_post(BlogJob::Model::Backend::MongoDB::Post $post, :$query) {
     $self->posts_collection->insert($post->as_hash);
+}
+
+method update_post(BlogJob::Model::Backend::MongoDB::Post $post, :$canonical_name) {
+    $self->posts_collection->update(
+        { canonical_name => $canonical_name},
+        $post->as_hash);
 }
 
 method remove_all_posts {

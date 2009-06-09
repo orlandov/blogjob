@@ -30,7 +30,12 @@ has 'tags'     => ( isa => 'ArrayRef', is => 'rw', default => sub { [] });
 
 method as_hash {
     my $p = { %$self };
-    delete $p->{_id} if (!$self->_id);
+    if ($self->_id && ref ($self->_id) eq 'MongoDB::OID') {
+        $p->{_id} = $self->_id->value;
+    }
+    else {
+        delete $p->{_id} if (!$self->_id);
+    }
     return $p;
 }
 

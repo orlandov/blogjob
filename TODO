@@ -2,14 +2,16 @@ BlogJob
 -------
 
 # ideas
-admin deletes post
 admin can create a post without publishing it
 admin edits post
 users have roles
-post tags
 post summaries
+posts by tag
+posts by user
 
 # Done
+post tags
+admin deletes post
 admin uses markdown to create rich text
 admin sees styled create post page
 non-admin user attempts to delete, create, edit post and is denied
