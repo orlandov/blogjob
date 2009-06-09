@@ -1,6 +1,6 @@
 [% USE Dumper %]
 <div class="span-24 last">
-    <h1>blog.<sub>2wycked.net</sub></h1>
+    <a href="[% c.uri_for('/posts') %]"><h1>blog.<sub>2wycked.net</sub></h1></a>
     <hr/>
 </div>
 <div class="span-24 last">
@@ -22,26 +22,23 @@
         [% END %]
         [% content %]
     </div>
-    <div class="span-3 last">
-        <div>
-            <div class="span-3 last">
+    <div class="span-4 last">
+        <div class="span-4 last">
+        [% IF c.user -%]
+            Hi, <a href="#">[% c.user.get('name') %]</a><br />
+        [%- ELSE -%]
+            <a href="[% c.uri_for('/auth/login') %]">Sign in</a>
+        [%- END %]
+        </div>
+        <div class="span-4 last">
+            <ul class="nav">
             [% IF c.user -%]
-                Hi, <a href="#">[% c.user.get('name') %]</a><br />
-            [%- ELSE -%]
-                <a href="[% c.uri_for('/auth/login') %]">Sign in</a>
+                <li><a href="[% c.uri_for('create') %]">New post</a></li>
+                <li><a href="[% c.uri_for('/auth/logout') %]">Sign out</a></li>
             [%- END %]
-            </div>
-            <div class="span-3 last">
-                <ul class="nav">
-                    <li><a href="[% c.uri_for('/posts') %]">Posts</a></li>
-                [% IF c.user -%]
-                    <li><a href="[% c.uri_for('create') %]">New post</a></li>
-                    <li><a href="[% c.uri_for('/auth/logout') %]">Sign out</a></li>
-                [%- END %]
-                </ul>
-                <hr/>
-                <a title="Atom" type="application/atom+xml" href="[% c.uri_for('/posts/feed') %]"><img src="[% c.uri_for('/static/') %]/images/feed-icon-14x14.png"/></a>
-            </div>
+            </ul>
+            <hr/>
+            <a title="Atom" type="application/atom+xml" href="[% c.uri_for('/posts/feed') %]"><img src="[% c.uri_for('/static/') %]/images/feed-icon-14x14.png"/></a>
         </div>
     </div>
 </div>
