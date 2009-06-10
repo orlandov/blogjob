@@ -8,18 +8,26 @@ BEGIN { extends 'Catalyst::View' }
 sub process {
     my ($self, $c) = @_;
 
+    my @posts = @{$c->stash->{posts}};
+
+    my $updated;
+    if (@posts) {
+        $updated = DateTime->from_epoch(
+            epoch => $c->stash->{posts}->[0]->created
+        );
+    }
+
     my $feed = XML::Atom::SimpleFeed->new(
         id => 'http://blog.2wycked.net/posts/feed',
         title   => 'blog.2wycked.net',
         link    => 'http://blog.2wycked.net/',
         link    => { rel => 'self', href => 'http://2wycked.net/posts/feed', },
-        updated =>
-            DateTime->from_epoch(epoch => $c->stash->{posts}->[0]->created),
         author  => 'Orlando Vazquez',
+        ( $updated ? ( updated => $updated ) : () ),
     );
 
-    my @tags;
     foreach my $post (@{$c->stash->{posts}}) {
+        my @tags;
         if ($post->tags) {
             @tags = @{$post->tags};
         }
@@ -28,10 +36,10 @@ sub process {
             id      => $c->uri_for('/posts'),
             title   => $post->title,
             link    => $c->uri_for('view/') . $post->canonical_name,
-            updated => DateTime->from_epoch(epoch=>$post->created)->iso8601,
+            updated => DateTime->from_epoch(epoch => $post->created)->iso8601,
             content => $post->html,
-            author => $post->author,
-            (map { (category => $_) } @tags)
+            author  => $post->author,
+            ( map { ( category => $_ ) } @tags )
         );
     }
 
