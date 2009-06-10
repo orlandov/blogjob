@@ -28,9 +28,9 @@ BlogJob::Controller::Root - Root Controller for BlogJob
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
-
-    # Hello World
-    $c->response->body( $c->welcome_message );
+    return $c->res->redirect(
+        $c->uri_for(
+            $c->controller('posts')->action_for('list')));
 }
 
 sub default :Path {

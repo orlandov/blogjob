@@ -94,7 +94,7 @@ sub view :Chained('base') PathPart('view') Args {
     my ($self, $c, @name) = @_;
 
     my @data = $c->stash->{posts_model}->posts(
-        query => {
+        {
             canonical_name => join( '/', @name)
         }
     );

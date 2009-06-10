@@ -38,7 +38,7 @@
             [%- END %]
             </ul>
             <hr/>
-            <a title="Atom" type="application/atom+xml" href="[% c.uri_for('/posts/feed') %]"><img src="[% c.uri_for('/static/') %]/images/feed-icon-14x14.png"/></a>
+            <a title="Atom" type="application/atom+xml" href="[% c.uri_for('/posts/feed') %]"><img src="[% c.config.static_url_path %]/images/feed-icon-14x14.png"/></a>
         </div>
     </div>
 </div>

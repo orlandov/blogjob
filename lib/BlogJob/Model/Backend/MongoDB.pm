@@ -10,8 +10,7 @@ method posts_collection {
     return $db->get_collection('posts');
 }
 
-method posts {
-    my ($query) = @_;
+method posts($query = {}) {
     my @data = $self->posts_collection->query($query)->all;
     return
         sort { $b->created <=> $a->created }
@@ -26,10 +25,6 @@ method by_canonical($name) {
     );
 }
 
-method remove($query) {
-    $self->posts_collection->remove($query);
-}
-
 method add(BlogJob::Model::Backend::MongoDB::Post $post, :$query) {
     $self->posts_collection->insert($post->as_hash);
 }
@@ -39,6 +34,10 @@ method update(BlogJob::Model::Backend::MongoDB::Post $post, :$canonical_name) {
         { canonical_name => $canonical_name },
         $post->as_hash
     );
+}
+
+method remove($query) {
+    $self->posts_collection->remove($query);
 }
 
 method remove_all {

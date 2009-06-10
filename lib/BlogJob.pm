@@ -12,22 +12,6 @@ use Catalyst qw/-Debug
                 Static::Simple/;
 our $VERSION = '0.01';
 
-__PACKAGE__->config(
-    name => 'BlogJob',
-    session => {
-        flash_to_stash => 1,
-        storage => '/tmp/session',
-    }
-);
-
-__PACKAGE__->config->{'Model::Posts'} = {
-    args => {
-        hostname => 'localhost',
-        port => 27017,
-        dbname => 'blogjob'
-    }
-};
-
 __PACKAGE__->setup();
 
 1;
