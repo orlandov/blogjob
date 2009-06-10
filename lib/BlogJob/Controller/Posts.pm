@@ -47,7 +47,7 @@ sub root :Chained('base') :PathPart('') Args(0) {
         $post->markdown($c->req->params->{'content'});
         $post->html(
             $c->markdown->markdown($c->req->params->{content}));
-        $c->stash->{posts_model}->add_post($post);
+        $c->stash->{posts_model}->add($post);
 
         return $c->res->redirect($c->uri_for('list'));
     }
@@ -63,16 +63,17 @@ sub _post_from_params {
     $tags =~ s/\s+$//g;
     $post->tags([ split /,/, $tags ]);
 
-    my $created = $args{'created'}; # bug
-    my $dt = DateTime->from_epoch(epoch => $created);
 
     my ($title, $canonical_title); 
     $title = $canonical_title = $args{title};
-    $post->created($created);
     $canonical_title =~ s/^\s+//g;
     $canonical_title =~ s/\s+$//g;
     $canonical_title =~ s/\s+/-/g;
     $canonical_title =~ s/[^-\w]+//g;
+
+    my $created = $args{'created'}; # bug
+    my $dt = DateTime->from_epoch(epoch => $created);
+    $post->created($created);
     my $canonical_name
         = join '/', ($dt->year, $dt->month, $canonical_title);
 
@@ -139,17 +140,14 @@ sub edit :Chained('base') PathPart('edit') Args {
 
     # if GET display form
     if ($c->req->method eq 'GET') {
-        my $post = [$c->stash->{posts_model}->posts(
-            query => { canonical_name => join('/', @name) }
-        )]->[0];
+        my $canonical = join('/', @name);
+        my $post = $c->stash->{posts_model}->by_canonical($canonical);
         $c->stash->{post} = $post;
         return $c->stash->{template} = 'posts/edit.tt2';
     }
     elsif ($c->req->method eq 'POST') {
         my $old_canonical = join('/', @name);
-        my $post = [$c->stash->{posts_model}->posts(
-            query => { canonical_name => $old_canonical }
-        )]->[0];
+        my $post = $c->stash->{posts_model}->by_canonical($old_canonical);
 
         # this code is so fucking gross
         $self->_post_from_params(
@@ -160,7 +158,7 @@ sub edit :Chained('base') PathPart('edit') Args {
             map { ($_ => $c->req->params->{$_}) }
                 qw(markdown tags title summary content)
         );
-        $c->stash->{posts_model}->update_post($post,
+        $c->stash->{posts_model}->update($post,
             canonical_name => $old_canonical);
         $c->flash->{success} = 'Post successfully saved';
         return $c->res->redirect($c->uri_for('list'));
@@ -178,7 +176,7 @@ sub delete :Chained('base') PathPart('delete') Args {
 
     my ($canonical_name) = join('/', @name) ;
     $c->flash->{success} = 'Post successfully deleted';
-    $c->stash->{posts_model}->remove({ canonical_name =>$canonical_name});
+    $c->stash->{posts_model}->remove({ canonical_name => $canonical_name});
     $c->response->redirect($c->uri_for('list'));
 }
 

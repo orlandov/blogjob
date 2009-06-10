@@ -2,7 +2,7 @@
 [% IF posts.size %]
     <div class="posts">
     [% FOR post=posts %]
-    <div class="post">
+    <div style="border-bottom: #DDD 1px solid" class="post">
         [%# USE Dumper; Dumper.dump(post) %]
         [% IF c.user %]
         <a href="[% c.uri_for('edit/') _ post.canonical_name %]">Edit</a>
@@ -12,7 +12,6 @@
         <div class="content">[% post.html || post.markdown %]</div>
         <p class="quiet">Posted by <a href="#" class="username">[% post.author %]</a> at <span class="date">[% date.format(post.created) %]</span><br/>
         [% IF post.tags.size %]Tags: [% post.tags.join(', ') %][% END %]</p>
-        <hr/>
     </div>
     [% END %]
     </div>
