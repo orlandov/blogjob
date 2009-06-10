@@ -1,50 +1,57 @@
-One of the great things about Catalyst is that you can deploy it in a number
-of different ways. I'd like to talk about some of those deployment options I
-had when building this site and the unique choice I made. I will mention that
-while not new to web development I have just started learning Catalyst and so
-far, I really like it.
+I've just started playing around [Catalyst](http://www.catalystframework.org/).
+Learning a new web framework is pretty boring if all you're doing is reading
+the manual and building an aimless, unfocused web app. So I decided to build a
+very simple blog. I know that's a completely unoriginal idea, as everyone and
+their grandma has written a blog framework. However; I had another motive. I've
+been meaning to start documenting interesting things I learn or read about,
+just as a way to give back to the internet and OSS community that's been so
+good to me and having a blog I could work on while I used some new tech seemed
+appealing.  
+
+Like with any good framework, there are a few ways to serve a Catalyst application.
+When it came time to think about how I was going to serve and keep this site
+up in the long term I had a chance to read up on a few of these options and
+thought I would share the knowledge.
 
 As of this post, there are a few popular ways of deploying a Catalyst
 application:
 
 ### mod_perl
 
-mod_perl enables you to embed the Perl interpreter directly in your webserver.
-This has been the traditional way of deploying perl web applications,
-typically with the old standby, Apache. Embedding the perl interpreter in the
-webserver is a fundamentally flawed way tackling the problem for number of
-reasons. Apache is big, and Perl is big. Each worker needs a copy of the Perl
-interpreter, which could consume a lot of resources. That's not even counting
-all the packages your application will need to run. In a nutshell, the
-webserver should be secure, small, only serving or forwarding requests. It
-should not be doing any heavy lifting.
+mod_perl embeds the Perl interpreter directly in the HTTP server.
+This has been the traditional way of deploying Perl web applications,
+typically with the old standby, Apache. Embedding the interpreter in the
+server is a fundamentally flawed solution to the problem. Apache is big, and
+Perl is big. Each worker needs a copy of the Perl interpreter, which could
+consume a lot of resources. That's not even counting all the packages your
+application will need to run. In a nutshell, the webserver should be like a
+ninja: lithe, secure, agile. Your server should only serving or forwarding
+requests. It should not be doing any heavy lifting.
 
 See: [mod_perl](http://en.wikipedia.org/wiki/Mod_perl)
 
 ### FastCGI
 
-FastCGI is another popular solution (probably the most popular), as it
-side steps the problem of embedding the interpreter. How it does this is by
+FastCGI is another popular solution, if not the most popular, as it
+side-steps the problem of embedding the interpreter. How it does this is by
 starting a FastCGI daemon that accepts connetions from an upstream server
-and proxies information to and from the web application, through an
-interface similar to CGI. Most current web servers support FastCGI out of
-the box or with a bit of tweaking. This isn't a terrible solution but has
-one problem: FastCGI is a *really* complicated binary protocol. I will admit
-that I'm not a FastCGI expert, but I like knowing how my software works
-under the hood.
+and proxies information to and from the web application via socket or pipe.
+Most current web servers support FastCGI out of the box or with a bit of
+tweaking. This wouldn't be a terrible solution if not for one problem: FastCGI
+is a complicated binary protocol that can sometimes be hard to debug.
 
 Behold the [FastCGI spec](http://www.fastcgi.com/devkit/doc/fcgi-spec.html)
 
 ### SCGI
 
 SCGI stands for Simple Common Gateway Interface. Conceptually it's quite
-similar to FastCGI. You launch a daemon that is external to the webserver, and
-talk to the web application via a socket. The great thing is that writing or
-maintaining an implementation SCGI interface and engine is order of magnitudes
-easier to do than FastCGI. As proof, contrast the protocol specifications for
-FastCGI and SCGI. All things being equal (performance, resource utilization) I
-would much prefer a simpler solution. All things being equal it makes sense
-that SCGI may well be more
+similar to FastCGI. You launch a daemon that is external to the HTTP server,
+and talk to the web application via a socket. The great thing is that writing
+or maintaining an implementation SCGI interface and engine is order of
+magnitudes easier to do than FastCGI. As proof, contrast the protocol
+specifications for FastCGI and SCGI. All things being equal (performance,
+resource utilization) I would much prefer a simpler solution. All things being
+equal it makes sense that SCGI may well be more
 [performant](http://www.rkblog.rk.edu.pl/w/p/pylons-benchmark-various-servers/)
 than FastCGI, which makes sense. Like any other benchmark, please take it with
 a grain of salt.
@@ -53,50 +60,51 @@ The [SCGI spec](http://python.ca/scgi/protocol.txt)
 
 #### Deploying Catalyst with the Cherokee webserver
 
-I was introduced to SCGI while I was learning how to set deploy a Pylons web
-application. During this same time I was exposed to the super awesome Cherokee
-web server. Cherokee is one of the new breed of super small agile web servers.
-It's written in C, has ton of features and is crazy fast. I really can't
-recomment it enough. The other interesting thing about Cherokee is that it is
-configured through an Web 2.0 GUI. Now I can hear you say, GUI's are ewwy,
-what kind of leet hacksor are you? After fucking around with Apache config
-files for years, getting a site up and running **exactly** how I want it in
-literally 4 minutes, I have to say that I'm okay with it.
+I was introduced to SCGI while I was reasearching deployment options for Pylons
+apps. During this same time I was exposed to the super awesome Cherokee web
+server. Cherokee is one of the new breed of super small agile web servers, such
+as Nginx or Lighttpd.  It's written in C, has ton of features and is crazy
+fast. I really can't recomment it enough. The other interesting thing about
+Cherokee is that it is configured through an Web 2.0 GUI. Now I can hear you
+say, GUI's are for pussies, what kind of hacker are you? Well, after fucking
+around with Apache config files for years, getting a site up and running
+**exactly** how I want it in literally 10 minutes, I have to say that I'm okay
+with this interface.
 
 I wrote a very simple server,
 [pyscgi_wsgi](http://github.com/orlandov/pyscgi_wsgi/tree), to bridge the gap
-from the PySCGI module (also written by the Cherokee guys)
+from the HTTP server (via the PySCGI module, also written by the Cherokee guys)
 to any WSGI app.
 
 So now, while learning to use Catalyst, I again wanted to avoid using FastCGI
 while at the same time using some exotic new software I was interested in. I
 saw that the Catalyst SCGI engine had fallen into disuse and wasn't being
-actively maintained. That weekend, I gave it some love and  now
-[Catalyst-SCGI-Engine](http://github.com/orlandov/Catalyst-Engine-SCGI/tree/master)
-ready for action once more. But enough talk, let's get down to setting up Catalyst with SCGI.
+actively maintained. That weekend, I gave it some love and now
+[Catalyst-SCGI-Engine](http://search.cpan.org/~orlandov/Catalyst-Engine-SCGI/)
+ready for action once more. But enough talk, let's get down to setting up
+Catalyst with SCGI.
 
 First step, download and install Catalyst-Engine-SCGI:
 
-    $ git clone git://github.com/orlandov/Catalyst-Engine-SCGI.git
-    $ cd Catalyst-Engine-SCGI
-    $ perl Makefile.PL
-    $ make
-    $ make test
-    $ sudo make install
+    $ sudo cpan Catalyst::Engine::SCGI
 
-Now, from your web application
+Now, create the SCGI launcher and make it executable:
 
     $ script/myapp_create.pl SCGI
-    created "/var/www/myapp/script/blogjob_scgi.pl"
+    created "/var/www/myapp/script/myapp_scgi.pl"
+    $ chmod +x script/myapp_scgi.pl
 
-Now, in Cherokee create an Information Source source called MyAppSCGI. In the
-field for the command to run, enter:
+Now, in Cherokee, under Information Source, create a new source called
+give it any nick, like MyAppSCGI. In the field for the command to run, enter:
 
-    /var/www/myapp/script/blogjob_scgi.pl -p 9000
+    /var/www/myapp/script/myapp_scgi.pl -p 9000
 
-Now create or edit your virtual hosts. Create a directory handler. For
-example, to host the blog application I wrote (BlogJob), I have a virtual host
-for blog.2wycked.net with a directory handler for /blog.  That handler is
-associated with the data source I defined above. Catalyst will automatically
-detect that your application is "mounted" at /blog and will do the right thing
-when you use things like $c->uri_for.
+Now create or edit your virtual hosts. Create a directory rule type under the
+"Behaviour" tab. For example, to host the blog application I wrote,
+I have a virtual host for blog.2wycked.net with a directory handler for /blog.
+That handler is associated with the data source I defined above. Catalyst will
+automatically detect that your application is "mounted" under /blog and will do
+the right thing when you use things like $c->uri_for.
+
+Next time you visit the SCGI url, Cherokee will automatically start the SCGI
+server for us. Hurray!
