@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
- <head>
+    <head>
+        <meta name="verify-v1" content="yBMvaB1LpQHCDlPkoKBFKJBf4unNE5UBkDGKqlFcx5E=" >
      <title>[% template.title or site.title %]</title>
 <link rel="stylesheet" href="[% c.config.static_url_path %]/css/blueprint/src/reset.css" type="text/css" media="screen, projection"/>
 <link rel="stylesheet" href="[% c.config.static_url_path %]/css/blueprint/screen.css" type="text/css" media="screen, projection"/>
@@ -9,6 +10,18 @@
 <link rel="stylesheet" href="[% c.config.static_url_path %]/css/blueprint/src/typography.css" type="text/css" media="screen, projection"/>
 <link rel="stylesheet" href="[% c.config.static_url_path %]/css/blueprint/print.css" type="text/css" media="print"/>
 <link rel="alternate" type="application/atom+xml" title="blog.2wycked.net" href="[% c.uri_for('/posts/feed') %]" />
+
+<script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl."
+    : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost +
+    "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+    try {
+    var pageTracker = _gat._getTracker("UA-9269539-2");
+    pageTracker._trackPageview();
+    } catch(err) {}</script>
 <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
 
 

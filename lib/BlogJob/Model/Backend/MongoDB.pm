@@ -20,9 +20,13 @@ method posts($query = {}) {
 }
 
 method by_canonical($name) {
-    return $self->posts(
-        { canonical_name => $name }
+    my $post = BlogJob::Model::Backend::MongoDB::Post->new(
+        $self->posts_collection->find_one(
+            { canonical_name => $name }
+        )
     );
+
+    return $post;
 }
 
 method add(BlogJob::Model::Backend::MongoDB::Post $post, :$query) {
