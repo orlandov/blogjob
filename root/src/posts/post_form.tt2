@@ -1,0 +1,29 @@
+<form class="create_post" method="post" action="[% action %]">
+    <div class="span-2">
+        <label for="title">Title</label>
+    </div>
+    <div class="last">
+        <input class="title" id="title" type="text" name="title" value="[% post.title %]" />
+    </div>
+    <div class="span-2">
+        <label for="tags">Tags</label>
+    </div
+    <div class="last">
+        <input class="tags" id="tags" type="text" name="tags" value="[% post.tags.join(',') %]" />
+    </div>
+    <div class="span-2">
+        <label for="summary">Summary</label>
+    </div>
+    <div class="last">
+        <textarea style="height: auto;" rows="5" class="content" name="summary">[% post.summary %]</textarea>
+    </div>
+    <div class="span-2">
+        <label for="content">Content</label><br/>
+    </div>
+    <div class="last">
+        <textarea class="content" name="content">[% post.markdown %]</textarea>
+    </div>
+    <div class="span-24 prepend-2 last">
+        <input type="Submit" value="[% submit %]" />
+    </div>
+</form>

@@ -1,0 +1,3 @@
+[% INCLUDE posts/post_form.tt2
+   action=(c.uri_for('edit/') _ post.canonical_name)i
+   submit="Update post" %]
