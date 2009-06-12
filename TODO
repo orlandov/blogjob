@@ -2,14 +2,24 @@ BlogJob
 -------
 
 # ideas
+script to initialize database with proper indexes etc
+script to initialize database with sample data
+static <meta> keywords
+dynamic <meta> keywords generated from post keywords
+custom <title>'s for individual posts
+user model in mongodb
 admin can create a post without publishing it
-admin edits post
 users have roles
-post summaries
-posts by tag
-posts by user
+show posts by tag
+show posts by user
+comments
+linkedin/github contacts
+bio/about me
+ajaxyness
 
 # Done
+post summaries
+admin edits post
 post tags
 admin deletes post
 admin uses markdown to create rich text
@@ -18,10 +28,13 @@ non-admin user attempts to delete, create, edit post and is denied
 users can navigate to a specific post /posts/view/2009/05/18/the-title-of-post
 atom feed
 
-Content
--------
+# Content ideas
 
-Catalyst under SCGI
-Creating an authentication store with MongoDB
+Technology i'm using (catalyst, markdown, scgi, cherokee, mongodb)
 Creating a MongoDB Catalyst model
+Creating an authentication store with MongoDB
 Cherokee?
+
+# Done content ideas
+Content
+Catalyst under SCGI
