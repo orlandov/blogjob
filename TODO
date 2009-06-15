@@ -8,12 +8,14 @@ static <meta> keywords
 dynamic <meta> keywords generated from post keywords
 custom <title>'s for individual posts
 user model in mongodb
+openid auth
 admin can create a post without publishing it
 users have roles
 show posts by tag
 show posts by user
 comments
 linkedin/github contacts
+github updates
 bio/about me
 ajaxyness
 
