@@ -27,7 +27,7 @@
         [% IF c.user -%]
             Hi, <a href="#">[% c.user.get('name') %]</a><br />
         [%- ELSE -%]
-            <a href="[% c.uri_for('/auth/login') %]">Sign in</a>
+            <a href="[% c.uri_for('/auth/openid') %]">Sign in with OpenID</a>
         [%- END %]
         </div>
         <div class="span-4 last">

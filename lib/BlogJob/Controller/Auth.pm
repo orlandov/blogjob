@@ -3,7 +3,7 @@ use Moose;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub login : Local {
+sub login_old : Local {
     my ($self, $c) = @_;
    
     if ($c->request->method =~ /get/i) {
@@ -35,6 +35,25 @@ sub login : Local {
     }
 }
 
+sub openid : Local {
+    my ($self, $c) = @_;
+    if (my $userobj=$c->authenticate) {
+        $c->flash->{'success'}='OpenID login successful';    
+        $c->res->redirect($c->uri_for('/auth/user'));
+        return;
+    }
+    else {
+        $c->stash->{template} = 'login/openid.tt2';
+        return;
+    }
+}
+
+sub user : Local {
+    my ($self, $c) = @_;
+    use Data::Dumper;
+    $c->res->body(Dumper $c->user);
+}
+
 sub logout : Local {
     my ($self, $c) = @_;
 
@@ -45,5 +64,8 @@ sub logout : Local {
 
     return $c->response->redirect($c->uri_for('/posts/list'));
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;
