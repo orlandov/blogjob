@@ -1,0 +1,120 @@
+# Creating a dialogue engine for a role playing game with a YAML DSL
+
+I've always had a passion for programming. My dad was was/is also a software
+developer, to a certain extent, so it's just something I've grown up with.
+Like any impressionable kid at the time with a computer, I wanted to be make
+games, so I started down the road of learning to program. First in C, then in
+Perl and Python. I learned Python around the 1.5.2 timeframe, specifically
+because I heard it could be used to script and extend game engines. As things
+go, I eventually realized that game making is a hard and thankless job, and
+eventually lost interest as I had to deal with school and then working.  
+
+More recently, in the last few years, I've been playing a few role playing
+games recently (mostly Fallout 2 and nethack) and have always been in awe of
+the brilliance and depth of both of these titles. Then I thought, man... how
+fucking awesome would it be to pour some of my unspeakably insane ideas into a
+game?  Specificially, a role playing game (RPG). So the brain juices got to
+flowin.
+
+Around the summer months of this year while reading the Fallout fansite [No
+Mutants Allowed](http://nma-fallout.com) Il became aware of a nascent open
+source game project, with the name [Post Apocalyptic
+RPG](http://blog.parpg.net) or PARPG for short.  It's a top down isometric
+game in the spirit of Fallout, written in Python, using a C++ game engine
+[FIFE](http://fifengine.de).
+
+I just couldn't resist. So I started submitting patches. A lot of patches.
+
+Around the time I got commit access a few weeks later, there was discussion as
+to how dialogue and quests were to be implemented in game. There were some
+important considerations, such as it should be scriptable, easy to extend, and
+be easy for non technical users, such as writers. We tossed out the idea of
+doing it in pure Python, as writers shouldn't be expected to know how to
+program to add new content. We considered writing our own syntax and parser,
+but honestly this scared the shit out of me. Writing parsers almost always
+leads to a yak shaving marathon and is not something to take lightly. It
+would also be really annoying to have to build a GUI out of this, as now you'd
+have to have your GUI serialize the content to our custom grammar. This would
+take a long time and possibly not be done in time for us to release our
+planned tech demo (aiming for late 2009, early 2010). So in the spirit of
+agility and doing the simplest thing that would work, I suggested YAML-based
+DSL.
+
+I recalled that a few friends and old co-workers (konobi and Michael Nachbaur)
+had used YAML in the past as a DSL (in their cases for automation and test
+case management). I pitched the idea, and then without waiting to hear back,
+started hacking on a prototype. Even if we didn't end up using it, I thought
+it was a sweet idea and ran with it.
+
+Essentially, how it works is, each non-player character (NPC) can have
+associated with them a YAML dialogue file. This file defines what the NPC says
+to the player, and what the player's possible responses are. Here's part of a
+dialogue file.
+
+A (sample dialogue
+file)[http://parpg-svn.cvsdude.com/parpg/trunk/game/dialogue/drunkard.yaml]
+looks like:
+
+    ---
+    NPC: Bart The Drunkard
+    AVATAR: gui/icons/npc.png
+    START: main_dialog
+
+    SECTIONS:
+        main_dialog:
+            - say: "Hey there, back up... no need to gang up on a poor guy!"
+            - responses:
+                -
+                  - "Gang up?  There's only one of me!"
+                  - first_impression
+                  - not pc.met('bart')
+                - 
+                  - "Glad to see you're feeling better."
+                  - gratitude
+                  - pc.met('bart') and not quest.hasFinishedQuest('beer')
+                - 
+                  - "Same old Bart,  I see."
+                  - old_pals
+                  - pc.met('bart')
+                -
+                  - "Ha, you better sleep it off, buddy."
+                  - end
+
+        first_impression:
+            - say: "Oh... yeah... sorry.  My vision goes a little funny sometimes.  Name's Bart."
+            - meet: bart
+            - responses:
+                -
+                  - "Are you drunk?"
+                  - elaborate_beer
+                  - not quest.hasQuest('beer') and not quest.hasFinishedQuest('beer')
+                # above should always be true since there is no other way to get the quest  
+                -
+                  - "Wow, you're really hammered.  I'll come back when you're sober."
+                  - end
+     
+        elaborate_beer:
+            - say: "Well, not for much longer, unfortunately.  My stash is just about run dry.  That bastard, Jacob has a still, but who can afford his prices!  He basically has a monopoly.  No one else around here knows how to brew us up some more booze!"
+            - responses: 
+                - 
+                  - "Wow, what a jerk.  Well, I'll be glad to lend a hand to such a noble task. Assuming you guys will supply the raw materials."
+                  - quest_beer
+                - 
+                  - "Hey, the man is entitled to run his business.  I'm not going to mess up his meal ticket."
+                  - old_pals
+                - 
+                  - "Alcohol is work of the Devil!!"
+                  - end
+
+And here's what the GUI I made for it looks like (very basic):
+
+(<img src="http://wiki.parpg.net/images/8/83/Screen-2009-10-06-14-12-41.png" width="400" />)[http://wiki.parpg.net/images/8/83/Screen-2009-10-06-14-12-41.png]
+
+As you can see, dialogue files consist of dialogue "frames", which often are
+just some NPC speech and possible responses. Each response can have a condition
+associated with it. This condition determines whether the response is displayed
+to the user.
+
+There's a very basic [dialogue wiki page](http://wiki.parpg.net/Dialogue) that
+covers the syntax. It's a bit outdated right now, as these thigns tend to
+change from week to week.
